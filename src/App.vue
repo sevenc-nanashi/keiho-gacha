@@ -96,7 +96,7 @@ const multiGachaText = multiGachaTexts[
                 >- {{ result.article.caption }}
               </span>
             </h2>
-            <p>{{ result.article.text }}</p>
+            <p class="result-content">{{ result.article.text }}</p>
           </article>
         </li>
       </ol>
