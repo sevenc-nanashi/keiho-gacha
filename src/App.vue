@@ -70,7 +70,7 @@ const multiGachaText = multiGachaTexts[
           target="_blank"
           rel="noopener noreferrer"
           >sevenc-nanashi/keiho-gacha</a
-        >（とCodex CLI）
+        >
       </p>
       <p>
         元ネタ：<a
