@@ -76,6 +76,9 @@ body {
 .card h2 {
   margin: 6px 0;
   font-size: 1.05rem;
+  .caption {
+    font-weight: 400;
+  }
 }
 
 .roll {

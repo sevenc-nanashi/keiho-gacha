@@ -5,6 +5,7 @@ import { penalCodeArticles, type PenalCodeArticle } from "./data/articles";
 type GachaResult = {
   roll: number;
   article: PenalCodeArticle;
+  id: string;
 };
 
 type GachaLog = {
@@ -31,6 +32,7 @@ const draw = (count: number): void => {
     nextResults.push({
       roll: i + 1,
       article,
+      id: crypto.randomUUID(),
     });
   }
 
@@ -85,13 +87,15 @@ const multiGachaText = multiGachaTexts[
     <section class="results" aria-live="polite">
       <p v-if="results.length === 0" class="hint">まだ引いていません</p>
       <ol v-else>
-        <li
-          v-for="result in results"
-          :key="`${result.roll}-${result.article.id}`"
-        >
+        <li v-for="result in results" :key="result.id">
           <article class="card latest-result">
             <p class="roll">{{ result.roll }}連目</p>
-            <h2>{{ result.article.title }}</h2>
+            <h2>
+              {{ result.article.title }}
+              <span v-if="result.article.caption" class="caption"
+                >- {{ result.article.caption }}
+              </span>
+            </h2>
             <p>{{ result.article.text }}</p>
           </article>
         </li>
@@ -108,11 +112,8 @@ const multiGachaText = multiGachaTexts[
         <li v-for="log in logs" :key="log.id" class="history-item">
           <p class="history-meta">第{{ log.id }}回（{{ log.count }}連）</p>
           <ul class="history-results">
-            <li
-              v-for="result in log.results"
-              :key="`${log.id}-${result.roll}-${result.article.id}`"
-            >
-              {{ result.roll }}連目: {{ result.article.title }}
+            <li v-for="result in log.results" :key="result.id">
+              {{ result.roll }}連目: {{ result.article.title }} {{ result.article.caption ? "- " + result.article.caption : "" }}
             </li>
           </ul>
         </li>
