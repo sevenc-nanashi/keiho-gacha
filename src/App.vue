@@ -29,14 +29,24 @@ const targetArticles = computed(() =>
 const twitterLink = computed(() => {
   const baseUrl = "https://twitter.com/intent/tweet";
   const target = isKenpoMode.value ? "憲法" : "刑法";
-  const resultsTexts = results.value
-    .map((result) => result.article.title)
-    .join("、");
-  const text = encodeURIComponent(
-    `${target}のランダムな条文を廃止する党は、${target}の${resultsTexts}を廃止することを宣言いたします。`,
-  );
+  let text = `#${target}のランダムな条文を廃止する党 は、${target}の__remaining__を廃止することを宣言いたします。`;
+  const maxLength = 129;
+  for (const result of results.value) {
+    if (text.length + result.article.title.length + 2 <= maxLength) {
+      text = text.replace(
+        "__remaining__",
+        `${result.article.title}、__remaining__`,
+      );
+    } else {
+      text = text.replace("__remaining__", "等");
+      break;
+    }
+  }
+  if (text.includes("__remaining__")) {
+    text = text.replace("__remaining__", "等");
+  }
   const url = encodeURIComponent(location.href);
-  return `${baseUrl}?text=${text}&url=${url}`;
+  return `${baseUrl}?text=${encodeURIComponent(text)}&url=${url}`;
 });
 
 const draw = (count: number): void => {
